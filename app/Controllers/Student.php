@@ -163,7 +163,27 @@ class Student extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        $name = $this->request->getVar('name');
+        // $data = json_decode(file_get_contents("php://input"));
+        $updateData = [
+            'name' => $name,
+        ];
+
+        if (! $this->model->update($id, $updateData)) {
+            $response = [
+                'status' => false,
+                'message' => $this->validator->getErrors(),
+                'data' => [],
+            ];
+        } else {
+            $response = [
+                'status' => true,
+                'message' => 'Data updated successfully',
+                'data' => []
+            ];
+        }
+
+        return $this->respond($response);
     }
 
     /**
